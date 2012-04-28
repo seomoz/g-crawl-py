@@ -1,29 +1,38 @@
 #! /usr/bin/env python
 
-import qless
+import os
 from . import logger
+from qless import worker
+
 from gevent.pool import Pool
 from gevent import sleep, Greenlet
 from gevent import monkey; monkey.patch_all()
 
-class Worker(object):
-    def __init__(self, queue, workers, host='localhost', port=6379, hostname=None, interval=60):
-        self.client   = qless.client(host=host, port=port, hostname=hostname)
-        self.queue    = self.client.queue(queue)
-        self.workers  = workers
-        self.interval = interval
+class Worker(worker.Worker):
+    def __init__(self, *args, **kwargs):
+        self.pool_size = kwargs.pop('pool_size', 10)
+        worker.Worker.__init__(self, *args, **kwargs)
     
-    def run(self):
-        pool = Pool(self.workers)
+    def work(self):
+        if not os.path.isdir(self.sandbox):
+            os.makedirs(self.sandbox)
+        
+        # self.clean()
+        pool = Pool(self.pool_size)
         while True:
-            # Wait until a worker is available
-            pool.wait_available()
-            # Now, try to get a new job
-            job = self.queue.pop()
-            if job:
-                logger.info('Starting job %s in %s' % (job.jid, job.queue))
-                pool.start(Greenlet(job.process))
-                logger.info('Completing job %s in %s' % (job.jid, job.queue))
-            else:
-                logger.info('No jobs. Sleeping %s' % self.interval)
-                sleep(self.interval)
+            try:
+                seen = False
+                for queue in self.queues:
+                    # Wait until a greenlet is available
+                    pool.wait_available()
+                    job = queue.pop()
+                    if job:
+                        seen = True
+                        pool.start(Greenlet(job.process))
+                        # self.clean()
+                
+                if not seen:
+                    logger.debug('Sleeping for %fs' % self.interval)
+                    sleep(self.interval)
+            except KeyboardInterrupt:
+                return

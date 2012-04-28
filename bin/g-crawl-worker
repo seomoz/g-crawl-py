@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 
+import psutil
 import argparse
 
 # First off, read the arguments
@@ -9,6 +10,10 @@ parser.add_argument('--host', dest='host', default='localhost',
     help='The host to connect to as the Redis server')
 parser.add_argument('--port', dest='port', default=6379, type=int,
     help='The port to connect to as the Redis server')
+parser.add_argument('--procs', dest='workers', default=psutil.NUM_CPUS, type=int,
+    help='How many processes to run. Set to 0 to use all available cores')
+parser.add_argument('--greenlets', dest='pool_size', default=50, type=int,
+    help='How many greenlets to run in each process')
 parser.add_argument('--path', dest='paths', action='append', default=[],
     help='Path(s) to include when loading jobs')
 parser.add_argument('--queue', dest='queues', action='append', default=[],
@@ -29,7 +34,8 @@ args = parser.parse_args()
 import os
 import sys
 import qless
-from gcrawl import worker, logger
+from qless import logger
+from gcrawl import worker, logger as log
 
 # Now let's add each of the paths to the python search path
 sys.path.extend([os.path.abspath(p) for p in args.paths])
@@ -37,6 +43,7 @@ sys.path.extend([os.path.abspath(p) for p in args.paths])
 if args.verbose:
     import logging
     logger.setLevel(logging.DEBUG)
+    log.setLevel(logging.DEBUG)
 
 # Now let's import all the modules and packages we've been asked to import
 for i in args.imports:
@@ -46,7 +53,6 @@ for i in args.imports:
         logger.exception('Failed to import %s' % i)
 
 try:
-    worker.Worker(args.queues[0], args.workers, args.host, args.port, args.hostname, args.interval).run()
+    worker.Worker(args.queues, args.host, args.port, args.workers, args.interval, args.workdir, hostname=args.hostname, pool_size=args.pool_size).run()
 except Exception:
     logger.exception('Uncaught exception in qless.worker.Worker.run')
-

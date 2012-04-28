@@ -185,7 +185,13 @@ class TestRelative(unittest.TestCase):
             self.assertEqual(Url.sanitize('http://' + bad), 'http://' + clean)
 
 
+
+
 class TestTheRest(unittest.TestCase):
+    def test_join(self):
+        # We should be able to join urls
+        self.assertEqual(Url.sanitize('/foo', 'http://cnn.com'), 'http://cnn.com/foo')
+    
     def test_escaping(self):
         paths = [
             ('hello%20and%20how%20are%20you', 'hello%20and%20how%20are%20you'),

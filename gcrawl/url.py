@@ -28,7 +28,7 @@ class Url(object):
             http://www.ietf.org/rfc/rfc3986.txt'''
         
         # Parse the url once it has been evaluated relative to a base
-        p = urlparse.urlparse(urlparse.urljoin(url, base or ''))
+        p = urlparse.urlparse(urlparse.urljoin(base or '', url))
         
         # And remove all the black-listed query parameters
         query = '&'.join(q for q in p.query.split('&') if q.partition('=')[0].lower() not in (param_blacklist or ()))
