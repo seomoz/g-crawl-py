@@ -24,12 +24,12 @@
 try:
 	from setuptools import setup
 	extra = {
-		'install_requires' : ['reppy', 'urllib3', 'requests']
+		'install_requires' : ['reppy', 'urllib3', 'requests', 'gevent']
 	}
 except ImportError:
 	from distutils.core import setup
 	extra = {
-		'dependencies' : ['reppy', 'urllib3', 'requests']
+		'dependencies' : ['reppy', 'urllib3', 'requests', 'gevent']
 	}
 
 setup(name       = 'gcrawl',

@@ -1,15 +1,15 @@
 #! /usr/bin/env python
 
-import logging
-logging.basicConfig()
-logger = logging.getLogger('gcrawl')
-
-from gevent import sleep
-
 import urllib3
 import requests
 from .url import Url
 from lxml import etree
+from gevent import sleep
+
+import logging
+logging.basicConfig()
+logger = logging.getLogger('gcrawl')
+logger.setLevel(logging.INFO)
 
 # The XPath functions available in lxml.etree do not include a lower()
 # function, and so we have to provide it ourselves. Ugly, yes.
@@ -113,7 +113,6 @@ class Crawl(object):
     
     def extend(self, urls, response):
         '''Add these urls to the list of requests we have to make'''
-        logger.debug('Adding links: %s' % '\n'.join(urls))
         self.requests.extend(urls)
     
     def recurse(self, response, tree):
