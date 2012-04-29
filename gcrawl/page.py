@@ -48,11 +48,14 @@ class Page(object):
     
     def __getattr__(self, key):
         if key == 'content':
-            self.content = self.response.text
+            self.content = self.response.content
             return self.content
-        elif key == 'tree':
-            self.tree = etree.fromstring(self.content, etree.HTMLParser(recover=True))
-            return self.tree        
+        elif key == 'html':
+            self.html = etree.fromstring(self.content, etree.HTMLParser(recover=True))
+            return self.html
+        elif key == 'xml':
+            self.xml = etree.fromstring(self.content, etree.XMLParser(recover=True))
+            return self.xml
         elif key == 'redirection':
             # This looks at both the Refresh header and the Location header
             self.redirection = self.headers.get('location')

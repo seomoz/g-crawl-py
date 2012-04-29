@@ -64,7 +64,8 @@ Many of these methods accept a `page` argument. That's a `Page` object, which ha
 some helpful lazily-loaded attributes:
 
 - `page.content` -- raw HTML message, decoded and decompressed
-- `page.tree` -- an etree of the HTML
+- `page.html` -- an etree of the HTML
+- `page.xml` -- an etree of the XML
 - `page.redireciton` -- redirection location (through a 301, 302, 303, 307 or Refresh header)
 - `page.links` -- returns a two-element dictionary, which each value a list of links. This
 	takes into account not only the 'nofollow' attribute of the links themselves, but also
@@ -85,9 +86,8 @@ Hot damn! You can run it striaght from the interpreter (go ahead -- try it out):
 
 This is probably a good way to debug for development. When it comes time to run the
 thing in production, you'll want to have `qless` (which amounts to having Redis 2.6
-installed) on a server somewhere, and then invoke `g-crawl-worker` (included when 
-you install this package). It's based on work (and largely inherits from) the `qless-py`
-worker to:
+installed) on a server somewhere, and then invoke `qless-py-worker` (included with 
+qless-py), which will:
 
 1. Fork itself and make use of multiple cores on your machine, and manages the child
 	processes. If child processes exit, it spawns replacements.

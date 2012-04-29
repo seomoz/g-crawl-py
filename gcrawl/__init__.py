@@ -4,6 +4,7 @@ import urllib3
 import requests
 from .page import Page
 from gevent import sleep
+from gevent import monkey; monkey.patch_all()
 
 import logging
 logging.basicConfig()
@@ -46,7 +47,13 @@ class Crawl(object):
             url = self.pop()
             try:
                 logger.info('Requesting %s' % url)
-                page = Page(requests.get(url, headers=self.headers, allow_redirects=self.allow_redirects))
+                try:
+                    page = Page(requests.get(url, headers=self.headers, allow_redirects=self.allow_redirects))
+                except Exception as e:
+                    r = self.exception(url, e)
+                    if r:
+                        self.results.append(r)
+                    continue
                 
                 # Should we append these results?
                 r = self.got(page)
@@ -58,7 +65,7 @@ class Crawl(object):
                 
                 sleep(self.delay(page))
             except Exception as e:
-                logger.exception('Failed to request %s' % next)
+                logger.exception('Failed to request %s' % url)
         
         self.after()
         return self.results
@@ -78,6 +85,10 @@ class Crawl(object):
     def extend(self, urls, page):
         '''Add these urls to the list of requests we have to make'''
         self.requests.extend(urls)
+    
+    def exception(self, url, exc):
+        '''We encountered an exception when parsing this page'''
+        pass
     
     def got(self, page):
         '''We fetched a page. Here is where you should decide what
