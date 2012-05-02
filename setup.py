@@ -40,7 +40,6 @@ setup(name       = 'gcrawl',
 	author_email = 'dan@seomoz.org',
 	license      = 'MIT',
 	packages     = ['gcrawl'],
-    scripts      = ['bin/g-crawl-worker'],
 	classifiers  = [
 		'License :: OSI Approved :: MIT License',
 		'Programming Language :: Python',
