@@ -74,17 +74,17 @@ class Page(object):
             #         'follow'  : [...],
             #         'nofollow': [...]
             #     }
-            robots = ';'.join(self.metaRobotsXpath(self.tree))
-            base   = ''.join(self.baseXpath(self.tree)) or self.url
+            robots = ';'.join(self.metaRobotsXpath(self.html))
+            base   = ''.join(self.baseXpath(self.html)) or self.url
             if 'nofollow' in robots:
                 self.links = {
                     'follow'  : [],
-                    'nofollow': [Url.sanitize(link, base) for link in self.allLinksXpath(self.tree)]
+                    'nofollow': [Url.sanitize(link, base) for link in self.allLinksXpath(self.html)]
                 }
             else:
                 self.links = {
-                    'follow'  : [Url.sanitize(link, base) for link in self.followableLinksXpath(self.tree)],
-                    'nofollow': [Url.sanitize(link, base) for link in self.unfollowableLinksXpath(self.tree)]
+                    'follow'  : [Url.sanitize(link, base) for link in self.followableLinksXpath(self.html)],
+                    'nofollow': [Url.sanitize(link, base) for link in self.unfollowableLinksXpath(self.html)]
                 }
             return self.links
     
