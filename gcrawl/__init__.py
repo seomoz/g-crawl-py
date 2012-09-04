@@ -2,6 +2,7 @@
 
 import urllib3
 import requests
+import urlparse
 from .page import Page
 from gevent import sleep
 from gevent import monkey; monkey.patch_all()
@@ -76,6 +77,10 @@ class Crawl(object):
     
     def delay(self, page):
         '''How long to wait before sending the next request'''
+        hostname = urlparse.urlparse(page.url).hostname
+        if (hostname == 'localhost') or (hostname == '127.0.0.1'):
+            # No delay if the request was to localhost
+            return 0
         return 2
     
     def pop(self):
