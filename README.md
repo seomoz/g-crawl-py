@@ -8,26 +8,6 @@ Qless-based crawl jobs, and gevent-based crawling. Hot damn!
 ![Open Source: Yes](https://img.shields.io/badge/open_source-MIT-green.svg?style=flat)
 ![Critical: Yes](https://img.shields.io/badge/critical-yes-red.svg?style=flat)
 
-* *Main purpose:* A Python interface to the gevent library's
-web crawling facilities.
-
-* *Also known as:* N/A
-
-* *Main Contact:* Dan Lecocq
-
-* *Products*: Fresh Web Explorer, Fresh Web Alerts, Moz Mentions,
-OSE Mentions, Linkscape
-
-* *Replaces*: N/A
-
-* *Open Source Dependencies*:
-gevent
-reppy
-requests
-urllib
-urllib3
-urlparse
-
 Installation
 ============
 Installation in the typical way:
