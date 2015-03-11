@@ -1,22 +1,24 @@
-* *Status:* Production
+g-crawl-py
+==========
+Qless-based crawl jobs, and gevent-based crawling. Hot damn!
+
+![Status: Production](https://img.shields.io/badge/status-production-green.svg?style=flat)
+![Team: Big Data](https://img.shields.io/badge/team-big_data-green.svg?style=flat)
+![Scope: External](https://img.shields.io/badge/scope-external-green.svg?style=flat)
+![Open Source: Yes](https://img.shields.io/badge/open_source-MIT-green.svg?style=flat)
+![Critical: Yes](https://img.shields.io/badge/critical-yes-red.svg?style=flat)
 
 * *Main purpose:* A Python interface to the gevent library's
 web crawling facilities.
 
-* *Also known as:* Fresh. See Products below.
-
-* *Team:* Big Data
+* *Also known as:* N/A
 
 * *Main Contact:* Dan Lecocq
-
-* *Scope:* external
 
 * *Products*: Fresh Web Explorer, Fresh Web Alerts, Moz Mentions,
 OSE Mentions, Linkscape
 
 * *Replaces*: N/A
-
-* *Open Source*: Yes
 
 * *Open Source Dependencies*:
 gevent
@@ -25,10 +27,6 @@ requests
 urllib
 urllib3
 urlparse
-
-g-crawl-py
-==========
-Qless-based crawl jobs, and gevent-based crawling. Hot damn!
 
 Installation
 ============
