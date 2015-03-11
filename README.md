@@ -1,3 +1,31 @@
+* *Status:* Production
+
+* *Main purpose:* A Python interface to the gevent library's
+web crawling facilities.
+
+* *Also known as:* Fresh. See Products below.
+
+* *Team:* Big Data
+
+* *Main Contact:* Dan Lecocq
+
+* *Scope:* external
+
+* *Products*: Fresh Web Explorer, Fresh Web Alerts, Moz Mentions,
+OSE Mentions, Linkscape
+
+* *Replaces*: N/A
+
+* *Open Source*: Yes
+
+* *Open Source Dependencies*:
+gevent
+reppy
+requests
+urllib
+urllib3
+urlparse
+
 g-crawl-py
 ==========
 Qless-based crawl jobs, and gevent-based crawling. Hot damn!
